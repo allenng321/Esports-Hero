@@ -6,7 +6,7 @@ namespace Game.Scripts
 {
     public class InitialScene : MonoBehaviour
     {
-        private static LoadingScreen Ls => LoadingScreen.Instance;
+        private static LoadingScreen Ls => LoadingScreen.instance;
         public SceneGroup mainMenuScene;
 
         private IEnumerator Start()

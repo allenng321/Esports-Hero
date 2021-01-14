@@ -11,12 +11,12 @@ namespace Game.Scripts.UI
 {
     public class LoadingScreen : MonoBehaviour
     {
-        public static LoadingScreen Instance;
+        public static LoadingScreen instance;
         private const string LoadingScreenPrefabText = "LoadingScreenPrefab";
 
         private Sprite _defaultLoadingBackground;
 
-        private bool _loading;
+        private bool _loading, _loadingSpriteBool;
         private AsyncOperationHandle<Sprite> _loadingSprite;
 
         public GameObject mainPanel;
@@ -29,18 +29,18 @@ namespace Game.Scripts.UI
         [RuntimeInitializeOnLoadMethod]
         private static void RuntimeOnLoad()
         {
-            if (!(Instance is null)) return;
+            if (!(instance is null)) return;
 
             Addressables.InstantiateAsync(LoadingScreenPrefabText);
         }
 
         private void OnEnable()
         {
-            if (!(Instance is null)) Destroy(gameObject);
+            if (!(instance is null)) Destroy(gameObject);
             else
             {
-                Instance = this;
-                DontDestroyOnLoad(Instance);
+                instance = this;
+                DontDestroyOnLoad(instance);
                 mainPanel.SetActive(false);
 
                 _defaultLoadingBackground = loadingBackground.sprite;
@@ -55,11 +55,16 @@ namespace Game.Scripts.UI
             _loading = true;
 
             mainPanel.SetActive(true);
-            _loadingSprite = asset.loadingImage.LoadAssetAsync();
-            _loadingSprite.Completed += delegate(AsyncOperationHandle<Sprite> handle)
+            if (!(asset.loadingImage is null))
             {
-                loadingBackground.sprite = handle.Result;
-            };
+                _loadingSprite = asset.loadingImage.LoadAssetAsync();
+                _loadingSpriteBool = true;
+                _loadingSprite.Completed += delegate(AsyncOperationHandle<Sprite> handle)
+                {
+                    if(handle.Result)loadingBackground.sprite = handle.Result;
+                };
+            }
+            else _loadingSpriteBool = false;
 
             progressBar.value = progressBar.minValue = 0;
             progressBar.maxValue = asset.sceneAssetReferences.Length;
@@ -98,7 +103,7 @@ namespace Game.Scripts.UI
             mainPanel.SetActive(false);
 
             loadingBackground.sprite = _defaultLoadingBackground;
-            Addressables.Release(_loadingSprite);
+            if (_loadingSpriteBool) Addressables.Release(_loadingSprite);
             _loading = false;
         }
     }

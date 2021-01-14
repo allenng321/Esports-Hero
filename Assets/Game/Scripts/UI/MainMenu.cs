@@ -20,7 +20,7 @@ namespace Game.Scripts.UI
         public GameObject mainPanel, settingsPanel, creditsPanel, infoPanel, extrasPanel;
         public string gameSupportUrl = "http://localhost/esports-test";
 
-        private static LoadingScreen Ls => LoadingScreen.Instance;
+        private static LoadingScreen Ls => LoadingScreen.instance;
         public SceneGroup bedroomScene;
 
         private void Update()
