@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6069748136025374241}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Bedroom1 Bed1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,6 +45,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bed_Table_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 2478046024172304293, guid: 6d40f80c53af9d84493778d071031acf,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2478046024172333957, guid: 6d40f80c53af9d84493778d071031acf,
         type: 3}
@@ -120,6 +125,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bed2_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705988224151440004, guid: 0e9d18fc4326d584bbd0142e8e3e91c9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7705988224151475876, guid: 0e9d18fc4326d584bbd0142e8e3e91c9,
         type: 3}
@@ -251,6 +261,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lamp_02
       objectReference: {fileID: 0}
+    - target: {fileID: 6138219023902427607, guid: c89d0cb5357954f46a53ec5915cb0b68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c89d0cb5357954f46a53ec5915cb0b68, type: 3}
 --- !u!4 &8476602574402633317 stripped
@@ -340,6 +355,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Catpet_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 5059929299895181224, guid: 2131c85c878a65244ad8dd24a806ec6e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2131c85c878a65244ad8dd24a806ec6e, type: 3}

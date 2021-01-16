@@ -37,8 +37,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4952730367962742552}
-  m_Layer: 0
-  m_Name: Level 1
+  m_Layer: 10
+  m_Name: Bedroom1 PC1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,6 +82,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4952730367962742552}
     m_Modifications:
+    - target: {fileID: 1162009121424020688, guid: 97d575fab41de494d89831da798e143b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2877871445433068441, guid: 97d575fab41de494d89831da798e143b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4747727552603596245, guid: 97d575fab41de494d89831da798e143b,
         type: 3}
       propertyPath: m_RootOrder
@@ -142,6 +152,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laptop
       objectReference: {fileID: 0}
+    - target: {fileID: 5379692285228613487, guid: 97d575fab41de494d89831da798e143b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8434211700585888002, guid: 97d575fab41de494d89831da798e143b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97d575fab41de494d89831da798e143b, type: 3}
 --- !u!4 &4841681285747659162 stripped
@@ -179,6 +199,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NoteBook_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 8640160420202277736, guid: 4e064493f1e63b548981ba0286565123,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8640160420202313544, guid: 4e064493f1e63b548981ba0286565123,
         type: 3}
@@ -339,6 +364,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Lamp_05
+      objectReference: {fileID: 0}
+    - target: {fileID: 644084727911184969, guid: 945b49059490a654cabc221911a13242,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 945b49059490a654cabc221911a13242, type: 3}

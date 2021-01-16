@@ -1,5 +1,7 @@
 ﻿using System;
+using Game.Scripts.GameManagement;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.Scripts.UI
 {
@@ -8,6 +10,7 @@ namespace Game.Scripts.UI
         [Serializable]
         public enum CurrentPanel
         {
+            Profile,
             Main,
             Settings,
             Credits,
@@ -15,13 +18,27 @@ namespace Game.Scripts.UI
             Extras
         }
 
-        [HideInInspector] public CurrentPanel currentPanel = CurrentPanel.Main;
+        [SerializeField] private CurrentPanel currentPanel = CurrentPanel.Main;
 
-        public GameObject mainPanel, settingsPanel, creditsPanel, infoPanel, extrasPanel;
+        public GameObject mainPanel, profilePanel, settingsPanel, creditsPanel, infoPanel, extrasPanel;
+        public InputField nameInput;
+        public Button nameSaveButton;
         public string gameSupportUrl = "http://localhost/esports-test";
 
         private static LoadingScreen Ls => LoadingScreen.instance;
         public SceneGroup bedroomScene;
+
+        private PlayerData _playerData;
+
+        private void Awake()
+        {
+            // Call the player current data so trigger the load if not yet loaded
+            _playerData = PlayerSaveData.CurrentData;
+            if (!PlayerSaveData.SaveExists()) currentPanel = CurrentPanel.Profile;
+
+            nameInput.onValueChanged.AddListener(OnNameChange);
+            nameSaveButton.onClick.AddListener(OnSaveName);
+        }
 
         private void Update()
         {
@@ -31,7 +48,7 @@ namespace Game.Scripts.UI
         private void ManageActivePanels()
         {
             mainPanel.SetActive(currentPanel == CurrentPanel.Main);
-
+            profilePanel.SetActive(currentPanel == CurrentPanel.Profile);
             settingsPanel.SetActive(currentPanel == CurrentPanel.Settings);
             creditsPanel.SetActive(currentPanel == CurrentPanel.Credits);
             infoPanel.SetActive(currentPanel == CurrentPanel.Info);
@@ -43,21 +60,42 @@ namespace Game.Scripts.UI
             Ls.Load(bedroomScene);
         }
 
-        public void StartNew()
+        /*public void StartNew()
         {
-            // TODO: Reset current player data
+            var d = PlayerSaveData.defaultData;
+            d.playerName = _playerData.playerName;
+            PlayerSaveData.CurrentData = d;
             LoadFirstRoom();
         }
 
         public void Continue()
         {
-            // TODO: Load player's latest save data into current data
+            PlayerSaveData.Load();
+            LoadFirstRoom();
+        }*/
+
+        public void Play()
+        {
+            PlayerSaveData.Load();
             LoadFirstRoom();
         }
 
         public void BackToMain()
         {
             currentPanel = CurrentPanel.Main;
+        }
+
+        private void OnSaveName()
+        {
+            var d = PlayerSaveData.defaultData;
+            d.playerName = nameInput.text;
+            PlayerSaveData.CurrentData = d;
+            PlayerSaveData.Save();
+        }
+
+        private void OnNameChange(string newName)
+        {
+            nameSaveButton.interactable = newName.Length >= 4;
         }
 
         public void OpenExtras()

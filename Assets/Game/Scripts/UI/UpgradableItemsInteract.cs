@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Game.Scripts.GameManagement;
 using Game.Scripts.Objects;
 using Game.Scripts.Objects.Rooms;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Game.Scripts.UI
@@ -22,9 +24,18 @@ namespace Game.Scripts.UI
 
         public Image upgradePreview;
 
-        public Text currentCoins, moreCoinsNeeded, upgradeCost, upgradeTime;
+        public Text selectedItem,
+            currentLevel,
+            nextLevel,
+            upgradedLevel,
+            currentCoins,
+            moreCoinsNeeded,
+            upgradeCost,
+            upgradeTime,
+            upgradeFinishingOn;
 
-        private UpgradableRoom _currentRoom;
+        public Transform requiredUpgradesListParent;
+        public Text requiredUpgradesListItem;
 
         public Dictionary<UpgradeData, IUpgradable> CurrentRoomRunningUpgrades { get; } =
             new Dictionary<UpgradeData, IUpgradable>();
@@ -32,6 +43,8 @@ namespace Game.Scripts.UI
         private float _lastUpdate;
 
         private static int PlayerCurrentCoins => PlayerSaveData.CurrentData.coinsInWallet;
+
+        private readonly UnityEvent _runningUpgradesBuffer = new UnityEvent();
 
         [RuntimeInitializeOnLoadMethod]
         private static void RuntimeOnLoad()
@@ -41,12 +54,19 @@ namespace Game.Scripts.UI
             Addressables.InstantiateAsync(ClassPrefabAddress);
         }
 
-        public void RoomLoaded(RoomName roomName)
+        public void RoomLoaded(RoomName roomName, List<UpgradableItem> items)
         {
-            var items = new List<UpgradableItem>(FindObjectsOfType<UpgradableItem>());
-            foreach (var ud in UpgradableLevelsData.upgrades[roomName]
+            foreach (var ud in UpgradableLevelsData.RunningUpgrades[roomName]
                 .Where(ud => !CurrentRoomRunningUpgrades.ContainsKey(ud)))
-                CurrentRoomRunningUpgrades.Add(ud, items.Find((item => item.itemKey == ud.item)));
+                CurrentRoomRunningUpgrades.Add(ud, items.Find(item => item.ObjectKey == ud.item));
+
+            if (mainPanel.activeSelf) ClosePanels();
+        }
+
+        public void StopUpgrade(UpgradeData data)
+        {
+            if (mainPanel.activeSelf) ClosePanels();
+            if (CurrentRoomRunningUpgrades.ContainsKey(data)) CurrentRoomRunningUpgrades.Remove(data);
         }
 
         public void ClearCurrentRoomUpgrades(RoomName roomName)
@@ -95,29 +115,81 @@ namespace Game.Scripts.UI
 
         private void CurrentRoomUpgradesCheck()
         {
+            var dataDirty = false;
             var now = DateTime.UtcNow;
             foreach (var key in CurrentRoomRunningUpgrades.Keys.Where(key => now > key.endTime))
             {
-                UpgradableLevelsData.FinishRunningUpgrade(key);
+                dataDirty = true;
                 CurrentRoomRunningUpgrades[key].FinishUpgrade();
-                CurrentRoomRunningUpgrades.Remove(key);
+                UpgradableLevelsData.FinishRunningUpgrade(key);
+
+                _runningUpgradesBuffer.AddListener(() => StopUpgrade(key));
+                // CurrentRoomRunningUpgrades.Remove(key);
             }
+
+            if (!dataDirty) return;
+            UpgradableLevelsData.Save();
+            _runningUpgradesBuffer.Invoke();
+            _runningUpgradesBuffer.RemoveAllListeners();
         }
 
-        public void Upgrade(UpgradableName objectKey, IUpgradable o)
+        public void Upgrade(IUpgradable o)
         {
+            var keyName = o.ObjectKey.ToString();
+            selectedItem.text = keyName.Substring(0, keyName.Length - 5);
+            currentLevel.text = o.CurrentLevelNumber.ToString();
+            nextLevel.text = o.NextLevelNumber.ToString();
             currentCoins.text = PlayerCurrentCoins.ToString();
 
-            if (PlayerCurrentCoins < o.UpgradeCost)
+            var requirementsMet = true;
+            var requiredUpgrades = new List<RequiredUpgrade>();
+
+            upgradePreview.gameObject.SetActive(true);
+            if (o.Preview) upgradePreview.sprite = o.Preview;
+
+            if (o.NextLevelRequiredUpgrades != null)
+                foreach (var upgrade in o.NextLevelRequiredUpgrades)
+                {
+                    if (UpgradableLevelsData.UpgradablesData[upgrade.item] >= upgrade.levelRequired) continue;
+
+                    requirementsMet = false;
+                    requiredUpgrades.Add(upgrade);
+                }
+
+            if (UpgradableLevelsData.TryGetRunningUpgrade(o.ObjectKey, out var ud))
+            {
+                upgradeRunning.SetActive(true);
+                upgradeFinishingOn.text =
+                    ((DateTime) ud.endTime).ToLocalTime().ToString(DateTimeFormatInfo.CurrentInfo);
+                upgradedLevel.text = ud.upgradedVersion.ToString();
+            }
+            else if (!o.NextLevelAvailable)
+            {
+                maxLevelReached.SetActive(true);
+                upgradePreview.gameObject.SetActive(false);
+            }
+            else if (!requirementsMet)
+            {
+                otherUpgradeRequired.SetActive(true);
+                upgradePreview.gameObject.SetActive(false);
+
+                foreach (var upgrade in requiredUpgrades)
+                {
+                    var t = Instantiate(requiredUpgradesListItem, requiredUpgradesListParent.position,
+                        requiredUpgradesListParent.rotation, requiredUpgradesListParent);
+                    t.text = $"{upgrade.item.ToString()}:{upgrade.levelRequired.ToString()} required";
+                }
+            }
+            else if (PlayerCurrentCoins < o.UpgradeCost)
             {
                 coinsLacking.SetActive(true);
                 moreCoinsNeeded.text = (o.UpgradeCost - PlayerCurrentCoins).ToString();
             }
             else
             {
-                // Just see enough coins or not and not the other checks for now
+                // After those two checks the upgradable should be ready now,
+                // We will do the required upgrades later
                 upgradeReady.SetActive(true);
-                upgradePreview.sprite = o.Preview;
                 upgradeCost.text = o.UpgradeCost.ToString();
                 upgradeTime.text = o.UpgradeTime.ToString();
 
@@ -142,14 +214,15 @@ namespace Game.Scripts.UI
 
                     var data = new UpgradeData
                     {
-                        room = curRoom.roomName,
-                        item = objectKey,
+                        room = curRoom.ObjectRoom,
+                        item = o.ObjectKey,
                         upgradedVersion = o.NextLevelNumber,
                         startTime = now,
                         endTime = now + o.UpgradeTime
                     };
 
                     UpgradableLevelsData.StartNewUpgrade(data);
+                    UpgradableLevelsData.Save();
                     CurrentRoomRunningUpgrades.Add(data, o);
                 });
             }

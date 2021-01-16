@@ -7,6 +7,7 @@ namespace Game.Scripts.GameManagement
     public struct PlayerData
     {
         public string playerName;
+        [Range(1, int.MaxValue)] public int playerExp;
         [Range(0, int.MaxValue)] public int coinsInWallet, coinsInBank;
     }
 
@@ -27,9 +28,10 @@ namespace Game.Scripts.GameManagement
             set => _currentData = value;
         }
 
-        private static PlayerData DefaultData => new PlayerData
+        public static PlayerData defaultData = new PlayerData
         {
             playerName = "Private Tester",
+            playerExp = 1,
             coinsInWallet = 999999999,
             coinsInBank = 0
         };
@@ -62,10 +64,13 @@ namespace Game.Scripts.GameManagement
             {
                 writer.Write(Version);
                 writer.Write(CurrentData.playerName);
+                writer.Write(CurrentData.playerExp);
                 writer.Write(CurrentData.coinsInWallet);
                 writer.Write(CurrentData.coinsInBank);
             }
         }
+
+        public static bool SaveExists() => File.Exists(_fullFilePath) || File.Exists(_fullFilePath + ".bkp");
 
         public static void Load()
         {
@@ -75,7 +80,7 @@ namespace Game.Scripts.GameManagement
 
         private static bool TryLoadFrom(string path)
         {
-            _currentData = new PlayerData();
+            _currentData = defaultData;
 
             try
             {
@@ -87,9 +92,13 @@ namespace Game.Scripts.GameManagement
 
                         if (savedVersion == Version)
                         {
-                            _currentData.playerName = reader.ReadString();
-                            _currentData.coinsInWallet = reader.ReadInt32();
-                            _currentData.coinsInBank = reader.ReadInt32();
+                            _currentData = new PlayerData
+                            {
+                                playerName = reader.ReadString(),
+                                playerExp = reader.ReadInt32(),
+                                coinsInWallet = reader.ReadInt32(),
+                                coinsInBank = reader.ReadInt32()
+                            };
                         }
                         else
                         {

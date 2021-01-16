@@ -1,4 +1,6 @@
 ﻿using System;
+using Game.Scripts.GameManagement;
+using Game.Scripts.Objects.Rooms;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -6,10 +8,15 @@ namespace Game.Scripts.Objects
 {
     public interface IUpgradable
     {
-        int NextLevelNumber { get; set; }
-        int UpgradeCost { get; set; }
-        UpgradeTime UpgradeTime { get; set; }
-        Sprite Preview { get; set; }
+        RoomName ObjectRoom { get; }
+        UpgradableName ObjectKey { get; }
+        int CurrentLevelNumber { get; }
+        int NextLevelNumber { get; }
+        bool NextLevelAvailable { get; }
+        RequiredUpgrade[] NextLevelRequiredUpgrades { get; }
+        int UpgradeCost { get; }
+        UpgradeTime UpgradeTime { get; }
+        Sprite Preview { get; }
 
         void FinishUpgrade();
     }
@@ -32,8 +39,15 @@ namespace Game.Scripts.Objects
 
         public override string ToString()
         {
-            return $"{days}d {hours}h {minutes}m {seconds}s";
+            return days + hours + minutes + seconds == 0 ? "Instantaneous" : $"{days}d {hours}h {minutes}m {seconds}s";
         }
+    }
+
+    [Serializable]
+    public class RequiredUpgrade
+    {
+        public UpgradableName item;
+        public int levelRequired;
     }
 
     [Serializable]
@@ -44,5 +58,6 @@ namespace Game.Scripts.Objects
         public UpgradeTime upgradeTime;
         public AssetReferenceGameObject levelPrefab;
         public AssetReferenceSprite levelPreview;
+        public RequiredUpgrade[] requiredUpgrades;
     }
 }

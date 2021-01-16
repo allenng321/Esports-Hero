@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8920191725945156334}
   - component: {fileID: 8920191725945156329}
-  m_Layer: 0
+  - component: {fileID: 8873492160903765238}
+  - component: {fileID: 7957671022015862727}
+  m_Layer: 11
   m_Name: Furniture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3fa123bb5d358144837f9f6339d65fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemRoom: 0
   itemKey: 3
   itemLevels:
   - levelNumber: 1
@@ -60,7 +63,34 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  interactable: 1
+    requiredUpgrades: []
+  interactable: 0
+--- !u!65 &8873492160903765238
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8920191725945156335}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.98324203, y: 3.6978421, z: 2.2483785}
+  m_Center: {x: 5.161089, y: -0.95513654, z: 2.9450045}
+--- !u!65 &7957671022015862727
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8920191725945156335}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.2316241, y: 1.8378391, z: 0.71513605}
+  m_Center: {x: -1.3279753, y: -1.9018955, z: 3.904331}
 --- !u!1 &8920191726017890929
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,7 +172,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8920191726281595367}
   - component: {fileID: 8920191726281595366}
-  m_Layer: 0
+  - component: {fileID: 7422155705731999056}
+  m_Layer: 11
   m_Name: PC Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3fa123bb5d358144837f9f6339d65fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemRoom: 0
   itemKey: 2
   itemLevels:
   - levelNumber: 1
@@ -193,6 +225,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+    requiredUpgrades: []
   - levelNumber: 2
     upgradeCost: 50
     upgradeTime:
@@ -205,9 +238,11 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
     levelPreview:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
+      m_AssetGUID: 6585ee34cdfe3be448acae204b5e181d
+      m_SubObjectName: Computer-mouse
+      m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    requiredUpgrades: []
   - levelNumber: 3
     upgradeCost: 250
     upgradeTime:
@@ -220,10 +255,25 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
     levelPreview:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  interactable: 1
+      m_AssetGUID: dbb761d88d8bcf84e9e1514723171c74
+      m_SubObjectName: Computer-mouse-L
+      m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    requiredUpgrades: []
+  interactable: 0
+--- !u!65 &7422155705731999056
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8920191726281595364}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.206978, y: 2.4345717, z: 2.3272061}
+  m_Center: {x: 1.4604999, y: -1.6193297, z: 3.1144102}
 --- !u!1 &8920191726630743003
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,7 +283,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8920191726630743002}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bedroom1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,7 +315,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8920191727086644294}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -299,7 +349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8920191727286945470}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Active
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +386,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8920191727365538259}
   - component: {fileID: 8920191727365538258}
-  m_Layer: 0
+  - component: {fileID: 3926933649804963664}
+  m_Layer: 11
   m_Name: Bed Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -369,6 +420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3fa123bb5d358144837f9f6339d65fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemRoom: 0
   itemKey: 1
   itemLevels:
   - levelNumber: 1
@@ -386,7 +438,21 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  interactable: 1
+    requiredUpgrades: []
+  interactable: 0
+--- !u!65 &3926933649804963664
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8920191727365538256}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.4346237, y: 1.8673363, z: 4.4845543}
+  m_Center: {x: -1.3238268, y: -1.9096603, z: -2.350934}
 --- !u!1 &8920191727617695395
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,7 +462,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8920191727617695394}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -430,7 +496,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8920191727662089540}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Common
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -466,6 +532,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WallFloor2_17 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 823392407144008476, guid: 4074e3cdd8bd7c344bfe67b5d4d7ec43,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 823392407144175420, guid: 4074e3cdd8bd7c344bfe67b5d4d7ec43,
         type: 3}
@@ -541,6 +612,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 2771145621937149707, guid: 11faa60ff496c5f44ac54cf0ade1290b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2771145621937507115, guid: 11faa60ff496c5f44ac54cf0ade1290b,
         type: 3}
@@ -706,6 +782,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Socket_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8224622143809427768, guid: ede612d13ea3c8a4f9981c774aa0a21a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8224622143809586456, guid: ede612d13ea3c8a4f9981c774aa0a21a,
         type: 3}
@@ -1107,6 +1188,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WallFloor2_18
       objectReference: {fileID: 0}
+    - target: {fileID: 3788204118787471979, guid: a936d43848397ec40974cbd484dd35b8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a936d43848397ec40974cbd484dd35b8, type: 3}
 --- !u!4 &5717465474249826089 stripped
@@ -1302,6 +1388,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor_01
       objectReference: {fileID: 0}
+    - target: {fileID: 2130234204341472930, guid: 7dcf608f1c1348443b81d8440de96d0a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2130234204341834370, guid: 7dcf608f1c1348443b81d8440de96d0a,
         type: 3}
       propertyPath: m_RootOrder
@@ -1386,6 +1477,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor_02 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2771145621937149707, guid: 11faa60ff496c5f44ac54cf0ade1290b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2771145621937507115, guid: 11faa60ff496c5f44ac54cf0ade1290b,
         type: 3}
@@ -1562,6 +1658,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WallFloor2_17 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 823392407144008476, guid: 4074e3cdd8bd7c344bfe67b5d4d7ec43,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 823392407144175420, guid: 4074e3cdd8bd7c344bfe67b5d4d7ec43,
         type: 3}
       propertyPath: m_RootOrder
@@ -1636,6 +1737,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: OfficeChair_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 2383889582165065260, guid: a08c4b6d001e9ae4eb7ed89cf1200f74,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2383889582165090828, guid: a08c4b6d001e9ae4eb7ed89cf1200f74,
         type: 3}
@@ -1792,6 +1898,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PC_Table
       objectReference: {fileID: 0}
+    - target: {fileID: 6726415862556845775, guid: 530ac2fccd8937248811defa3c2390d7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6726415862557276911, guid: 530ac2fccd8937248811defa3c2390d7,
         type: 3}
       propertyPath: m_RootOrder
@@ -1866,6 +1977,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Trash_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5647530339594368823, guid: 0fd147cfcb300c14383d6ea56435a430,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5647530339594464023, guid: 0fd147cfcb300c14383d6ea56435a430,
         type: 3}
@@ -1956,6 +2072,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor_01 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130234204341472930, guid: 7dcf608f1c1348443b81d8440de96d0a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2130234204341834370, guid: 7dcf608f1c1348443b81d8440de96d0a,
         type: 3}
@@ -2206,6 +2327,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WallFloor2_17
+      objectReference: {fileID: 0}
+    - target: {fileID: 823392407144008476, guid: 4074e3cdd8bd7c344bfe67b5d4d7ec43,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 823392407144175420, guid: 4074e3cdd8bd7c344bfe67b5d4d7ec43,
         type: 3}

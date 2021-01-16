@@ -16,19 +16,30 @@ namespace Game.Scripts.Objects.Rooms
         Office
     }
 
-    public class UpgradableRoom : MonoBehaviour
+    public class UpgradableRoom : MonoBehaviour, IUpgradable
     {
-        public RoomName roomName;
-        public UpgradableName roomKey;
+        [SerializeField] private RoomName roomName;
+        [SerializeField] private UpgradableName roomKey;
+
+        public List<UpgradableItem> RoomItems { get; private set; }
 
         public AssetReference roomLevelsData;
 
         private List<UpgradableObjectLevel> _roomLevels;
 
-        public int CurrentLevel { get; private set; }
-
         private AssetReferenceGameObject _currentLevelPrefab;
         private GameObject _instance;
+
+        public RoomName ObjectRoom => roomName;
+        public UpgradableName ObjectKey => roomKey;
+        public int CurrentLevelNumber { get; private set; }
+        public int NextLevelNumber { get; private set; }
+        public bool NextLevelAvailable { get; private set; }
+        public RequiredUpgrade[] NextLevelRequiredUpgrades { get; private set; }
+        public int UpgradeCost { get; private set; }
+        public UpgradeTime UpgradeTime { get; private set; }
+        private AssetReferenceSprite _nextLevelPreview;
+        public Sprite Preview { get; private set; }
 
         private bool _init = false;
 
@@ -38,29 +49,63 @@ namespace Game.Scripts.Objects.Rooms
             _init = true;
 
             roomLevelsData.LoadAssetAsync<UpgradableRoomLevels>().Completed += OnLevelsLoaded;
-
-            StartCoroutine(RoomLoaded());
         }
 
         private IEnumerator RoomLoaded()
         {
+            // Wait each frames till the UpgradableInteract prefab has been instantiated
             while (UpgradableItemsInteract.instance is null || !UpgradableItemsInteract.instance)
                 yield return null;
 
-            UpgradableItemsInteract.instance.RoomLoaded(roomName);
+            // A small wait to make sure everything is loaded before call.
+            yield return new WaitForSeconds(1);
+
+            RoomItems = new List<UpgradableItem>(GetComponentsInChildren<UpgradableItem>());
+
+            foreach (var item in RoomItems) item.interactable = true;
+
+            UpgradableItemsInteract.instance.RoomLoaded(roomName, RoomItems);
         }
 
         private void OnLevelsLoaded(AsyncOperationHandle<UpgradableRoomLevels> obj)
         {
             _roomLevels = obj.Result.roomLevels;
 
-            CurrentLevel = UpgradableLevelsData.UpgradablesData[roomKey];
+            if (!(_instance is null) && _instance != null && _instance)
+            {
+                _currentLevelPrefab.ReleaseInstance(_instance);
+            }
+
+            CurrentLevelNumber = UpgradableLevelsData.UpgradablesData[roomKey];
             _currentLevelPrefab = _roomLevels
-                .Find(level => level.levelNumber == CurrentLevel).levelPrefab;
+                .Find(level => level.levelNumber == CurrentLevelNumber).levelPrefab;
 
             var transform1 = transform;
             _currentLevelPrefab.InstantiateAsync(transform1.position, transform1.rotation, transform1).Completed +=
                 handle => _instance = handle.Result;
+
+            StartCoroutine(RoomLoaded());
+
+
+            NextLevelNumber = CurrentLevelNumber + 1;
+            var nextLevel = _roomLevels.Find(level => level.levelNumber == NextLevelNumber);
+            NextLevelAvailable = !(nextLevel is null);
+
+            if (nextLevel is null) return;
+
+            UpgradeCost = nextLevel.upgradeCost;
+            UpgradeTime = nextLevel.upgradeTime;
+            NextLevelRequiredUpgrades = nextLevel.requiredUpgrades;
+
+            _nextLevelPreview = nextLevel.levelPreview;
+
+            if (!(_nextLevelPreview is null) && _nextLevelPreview.RuntimeKeyIsValid())
+            {
+                _nextLevelPreview.LoadAssetAsync().Completed += handle =>
+                {
+                    if (handle.Result) Preview = handle.Result;
+                };
+            }
         }
 
         private void Awake() => Load();
@@ -75,6 +120,29 @@ namespace Game.Scripts.Objects.Rooms
         public void RoomChanging()
         {
             UpgradableItemsInteract.instance.ClearCurrentRoomUpgrades(roomName);
+        }
+
+        public void FinishUpgrade()
+        {
+            //TODO: Play some animation, celebration effect etc. before just swapping the current level prefab with next
+            UpgradableLevelsData.UpgradablesData[roomKey] = NextLevelNumber;
+
+            // Here also reset the room items to level 0 for the next room level.
+            // SO that the next room begins with that room's respective starting items,
+            // which an later be upgraded.
+            foreach (var item in RoomItems)
+            {
+                if (UpgradableLevelsData.TryGetRunningUpgrade(item.ObjectKey, out var ud))
+                {
+                    UpgradableLevelsData.FinishRunningUpgrade(ud);
+                    UpgradableItemsInteract.instance.StopUpgrade(ud);
+                }
+
+                UpgradableLevelsData.UpgradablesData[item.ObjectKey] = 1;
+            }
+
+            UpgradableLevelsData.Save();
+            Load(true);
         }
     }
 }
