@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 37fc31c1bcd337b498ee1c6a0ab79c17,
+  m_LightingDataAsset: {fileID: 112000000, guid: 5be74a77c9841504481ce602de145ba3,
     type: 2}
   m_UseShadowmask: 0
 --- !u!196 &4
@@ -801,7 +801,7 @@ GameObject:
   - component: {fileID: 1538233482}
   - component: {fileID: 1538233483}
   m_Layer: 0
-  m_Name: Bedroom Level
+  m_Name: Office Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -850,10 +850,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e510fc66ea430ebec12794d9db2305, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomName: 0
-  roomKey: 0
+  roomName: 1
+  roomKey: 5
   roomLevelsData:
-    m_AssetGUID: 583d10e969616774eb7ac14c1398649f
+    m_AssetGUID: c7d9bd9567c82ee43b4abc6df9972417
     m_SubObjectName: 
     m_SubObjectType: 
 --- !u!1 &1802606099

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemRoom: 0
-  itemKey: 3
+  itemKey: 4
   itemLevels:
   - levelNumber: 1
     upgradeCost: 0
@@ -64,6 +64,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
     requiredUpgrades: []
+  interactionCanvass: {fileID: 0}
   interactable: 0
 --- !u!65 &8873492160903765238
 BoxCollider:
@@ -260,6 +261,7 @@ MonoBehaviour:
       m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     requiredUpgrades: []
+  interactionCanvass: {fileID: 0}
   interactable: 0
 --- !u!65 &7422155705731999056
 BoxCollider:
@@ -439,6 +441,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
     requiredUpgrades: []
+  interactionCanvass: {fileID: 0}
   interactable: 0
 --- !u!65 &3926933649804963664
 BoxCollider:

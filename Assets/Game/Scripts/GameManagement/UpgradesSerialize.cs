@@ -9,7 +9,12 @@ namespace Game.Scripts.GameManagement
         BedroomLevel,
         BedroomBedLevel,
         BedroomPCLevel,
-        BedroomFurnitureLevel
+        BedroomTVLevel,
+        BedroomFurnitureLevel,
+        OfficeLevel,
+        OfficeSofaLevel,
+        OfficePCLevel,
+        OfficeBookShelfLevel
     }
 
     [Serializable]

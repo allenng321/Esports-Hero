@@ -13,7 +13,6 @@ namespace Game.Scripts.Objects.Rooms
         public UpgradableRoom theUpgradableRoom;
 
         public Text roomLevelDisplay, roomNameDisplay;
-        public Button roomLevelButton;
 
         private void Awake() => StartCoroutine(UpdateDisplay());
 
@@ -33,14 +32,16 @@ namespace Game.Scripts.Objects.Rooms
 
             roomLevelDisplay.text = theUpgradableRoom.CurrentLevelNumber.ToString();
             roomNameDisplay.text = theUpgradableRoom.ObjectRoom.ToString();
-
-            roomLevelButton.onClick.RemoveAllListeners();
-            roomLevelButton.onClick.AddListener(UpgradeRoom);
         }
 
-        private void UpgradeRoom()
+        public void UpgradeRoom()
         {
             UpgradableItemsInteract.instance.Upgrade(theUpgradableRoom);
+        }
+
+        public void ChangeRoom(SceneGroup roomAsset)
+        {
+            LoadingScreen.instance.Load(roomAsset);
         }
     }
 }

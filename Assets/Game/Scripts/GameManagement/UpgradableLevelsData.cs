@@ -31,7 +31,12 @@ namespace Game.Scripts.GameManagement
                 [UpgradableName.BedroomLevel] = 1,
                 [UpgradableName.BedroomBedLevel] = 1,
                 [UpgradableName.BedroomPCLevel] = 1,
-                [UpgradableName.BedroomFurnitureLevel] = 1
+                [UpgradableName.BedroomTVLevel] = 1,
+                [UpgradableName.BedroomFurnitureLevel] = 1,
+                [UpgradableName.OfficeLevel] = 1,
+                [UpgradableName.OfficeSofaLevel] = 1,
+                [UpgradableName.OfficeBookShelfLevel] = 1,
+                [UpgradableName.OfficePCLevel] = 1
             };
 
         private static List<UpgradeData> _runningUpgrades;
@@ -106,7 +111,12 @@ namespace Game.Scripts.GameManagement
                     writer.Write(_upgradablesData[UpgradableName.BedroomLevel]);
                     writer.Write(_upgradablesData[UpgradableName.BedroomBedLevel]);
                     writer.Write(_upgradablesData[UpgradableName.BedroomPCLevel]);
+                    writer.Write(_upgradablesData[UpgradableName.BedroomTVLevel]);
                     writer.Write(_upgradablesData[UpgradableName.BedroomFurnitureLevel]);
+                    writer.Write(_upgradablesData[UpgradableName.OfficeLevel]);
+                    writer.Write(_upgradablesData[UpgradableName.OfficeSofaLevel]);
+                    writer.Write(_upgradablesData[UpgradableName.OfficeBookShelfLevel]);
+                    writer.Write(_upgradablesData[UpgradableName.OfficePCLevel]);
                     Console.WriteLine("ULD writer written all data");
                 }
 
@@ -148,7 +158,12 @@ namespace Game.Scripts.GameManagement
                             _upgradablesData[UpgradableName.BedroomLevel] = reader.ReadInt32();
                             _upgradablesData[UpgradableName.BedroomBedLevel] = reader.ReadInt32();
                             _upgradablesData[UpgradableName.BedroomPCLevel] = reader.ReadInt32();
+                            _upgradablesData[UpgradableName.BedroomTVLevel] = reader.ReadInt32();
                             _upgradablesData[UpgradableName.BedroomFurnitureLevel] = reader.ReadInt32();
+                            _upgradablesData[UpgradableName.OfficeLevel] = reader.ReadInt32();
+                            _upgradablesData[UpgradableName.OfficeSofaLevel] = reader.ReadInt32();
+                            _upgradablesData[UpgradableName.OfficeBookShelfLevel] = reader.ReadInt32();
+                            _upgradablesData[UpgradableName.OfficePCLevel] = reader.ReadInt32();
                         }
                         else
                         {

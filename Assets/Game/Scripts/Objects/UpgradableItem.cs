@@ -13,7 +13,8 @@ namespace Game.Scripts.Objects
         [SerializeField] private RoomName itemRoom;
         [SerializeField] private UpgradableName itemKey;
 
-        public List<UpgradableObjectLevel> itemLevels;
+        [SerializeField] private List<UpgradableObjectLevel> itemLevels;
+        [SerializeField] private GameObject interactionCanvass;
 
         private AssetReferenceGameObject _currentLevelPrefab;
         private GameObject _instance;
@@ -98,7 +99,16 @@ namespace Game.Scripts.Objects
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (interactable) UpgradableItemsInteract.instance.Upgrade(this);
+            if (interactable) interactionCanvass.SetActive(true);
+        }
+        public void CloseCanvass()
+        {
+            interactionCanvass.SetActive(false);
+        }
+
+        public void UpgradeCLick()
+        {
+            UpgradableItemsInteract.instance.Upgrade(this);
         }
     }
 }

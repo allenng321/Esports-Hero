@@ -19,7 +19,14 @@ namespace Game.Scripts.UI
 
         private Sprite _defaultPreviewSprite;
 
-        public GameObject mainPanel, upgradeReady, upgradeRunning, coinsLacking, maxLevelReached, otherUpgradeRequired;
+        public GameObject mainPanel,
+            upgradeReady,
+            upgradeRunning,
+            coinsLacking,
+            roomMaxLevelReached,
+            maxLevelReached,
+            otherUpgradeRequired;
+
         public Button confirmUpgrade;
 
         public Image upgradePreview;
@@ -81,6 +88,7 @@ namespace Game.Scripts.UI
             upgradeReady.SetActive(false);
             upgradeRunning.SetActive(false);
             coinsLacking.SetActive(false);
+            roomMaxLevelReached.SetActive(false);
             maxLevelReached.SetActive(false);
             otherUpgradeRequired.SetActive(false);
 
@@ -165,7 +173,9 @@ namespace Game.Scripts.UI
             }
             else if (!o.NextLevelAvailable)
             {
-                maxLevelReached.SetActive(true);
+                if (o is UpgradableRoom)
+                    roomMaxLevelReached.SetActive(true);
+                else maxLevelReached.SetActive(true);
                 upgradePreview.gameObject.SetActive(false);
             }
             else if (!requirementsMet)
