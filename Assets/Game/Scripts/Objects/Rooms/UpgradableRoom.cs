@@ -19,7 +19,9 @@ namespace Game.Scripts.Objects.Rooms
     public class UpgradableRoom : MonoBehaviour, IUpgradable
     {
         [SerializeField] private RoomName roomName;
+        public RoomName RoomName => roomName;
         [SerializeField] private UpgradableName roomKey;
+        public SceneGroup thisRoomScenes;
 
         public List<UpgradableItem> RoomItems { get; private set; }
 

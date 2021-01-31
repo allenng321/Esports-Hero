@@ -45,6 +45,8 @@ namespace Game.Scripts.Objects
             if (_init && !force) return;
             _init = true;
 
+            interactionCanvass.SetActive(false);
+
             if (!(_instance is null) && _instance != null && _instance)
             {
                 _currentLevelPrefab.ReleaseInstance(_instance);
@@ -99,9 +101,13 @@ namespace Game.Scripts.Objects
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (interactable) interactionCanvass.SetActive(true);
+            if (!interactable) return;
+
+            interactionCanvass.SetActive(true);
+            interactionCanvass.transform.position = eventData.pointerPressRaycast.worldPosition;
         }
-        public void CloseCanvass()
+
+        public void CloseInteractionCanvass()
         {
             interactionCanvass.SetActive(false);
         }

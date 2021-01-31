@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Game.Scripts.GameManagement
@@ -7,8 +8,12 @@ namespace Game.Scripts.GameManagement
     public struct PlayerData
     {
         public string playerName;
-        [Range(1, int.MaxValue)] public int playerExp;
+        [Range(1, int.MaxValue)] public int playerExpLevel;
+        [Range(0, int.MaxValue)] public int playerExpProgress;
         [Range(0, int.MaxValue)] public int coinsInWallet, coinsInBank;
+        public int consecutiveGameWins, totalGameWins, gameKills, gameDeaths;
+        public int gameRank, gameRankProgress, gameLeaderboardRating;
+        public SerializableDateTime lastGameTime;
     }
 
     public static class PlayerSaveData
@@ -31,9 +36,18 @@ namespace Game.Scripts.GameManagement
         public static PlayerData defaultData = new PlayerData
         {
             playerName = "Private Tester",
-            playerExp = 1,
+            playerExpLevel = 1,
+            playerExpProgress = 0,
             coinsInWallet = 999999999,
-            coinsInBank = 0
+            coinsInBank = 0,
+            consecutiveGameWins = 0,
+            totalGameWins = 0,
+            gameKills = 0,
+            gameDeaths = 0,
+            gameRank = 1,
+            gameRankProgress = 0,
+            gameLeaderboardRating = 99999,
+            lastGameTime = DateTime.UtcNow
         };
 
         private const string BinarySavePath = "PlayerData.sav";
@@ -52,6 +66,19 @@ namespace Game.Scripts.GameManagement
 
         public static void Save()
         {
+#if CSHARP_7_OR_LATER
+            // A check to see c# version and if pass then run the write method on a different thread.
+            // Used this to prevent any blocking of the game on main thread because of file system writes.
+            // Also it is safe to do this on a separate thread since we are not using any of Unity's API(s) in Write method and use only System namespace types.
+            var task = new Task(InternalSave);
+            task.Start();
+#else
+            InternalSave();
+#endif
+        }
+
+        private static void InternalSave()
+        {
             if (File.Exists(_fullFilePath))
             {
                 // well there are too many `bkp`s usage here 😅
@@ -64,9 +91,18 @@ namespace Game.Scripts.GameManagement
             {
                 writer.Write(Version);
                 writer.Write(CurrentData.playerName);
-                writer.Write(CurrentData.playerExp);
+                writer.Write(CurrentData.playerExpLevel);
+                writer.Write(CurrentData.playerExpProgress);
                 writer.Write(CurrentData.coinsInWallet);
                 writer.Write(CurrentData.coinsInBank);
+                writer.Write(CurrentData.consecutiveGameWins);
+                writer.Write(CurrentData.totalGameWins);
+                writer.Write(CurrentData.gameKills);
+                writer.Write(CurrentData.gameDeaths);
+                writer.Write(CurrentData.gameRank);
+                writer.Write(CurrentData.gameRankProgress);
+                writer.Write(CurrentData.gameLeaderboardRating);
+                writer.Write(JsonUtility.ToJson(CurrentData.lastGameTime));
             }
         }
 
@@ -95,9 +131,18 @@ namespace Game.Scripts.GameManagement
                             _currentData = new PlayerData
                             {
                                 playerName = reader.ReadString(),
-                                playerExp = reader.ReadInt32(),
+                                playerExpLevel = reader.ReadInt32(),
+                                playerExpProgress = reader.ReadInt32(),
                                 coinsInWallet = reader.ReadInt32(),
-                                coinsInBank = reader.ReadInt32()
+                                coinsInBank = reader.ReadInt32(),
+                                consecutiveGameWins = reader.ReadInt32(),
+                                totalGameWins = reader.ReadInt32(),
+                                gameKills = reader.ReadInt32(),
+                                gameDeaths = reader.ReadInt32(),
+                                gameRank = reader.ReadInt32(),
+                                gameRankProgress = reader.ReadInt32(),
+                                gameLeaderboardRating = reader.ReadInt32(),
+                                lastGameTime = JsonUtility.FromJson<SerializableDateTime>(reader.ReadString())
                             };
                         }
                         else

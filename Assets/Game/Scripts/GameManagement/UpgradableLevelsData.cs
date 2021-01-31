@@ -69,13 +69,14 @@ namespace Game.Scripts.GameManagement
             // var t = new Thread(InternalSave);
             // t.Start();
 #else
-            var chars = Convert
+            /*var chars = Convert
                 .ToBase64String(
                     Encoding.UTF8.GetBytes(JsonUtility.ToJson(new RunningUpgrades(_runningUpgrades.ToArray()),
                         false))).ToCharArray();
 
             Write(_fullFilePath, chars);
-            Write(_fullFilePath + ".bkp", chars);
+            Write(_fullFilePath + ".bkp", chars);*/
+            InternalSave();
 #endif
         }
 

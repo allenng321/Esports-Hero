@@ -4,10 +4,8 @@
     {
         public void Sleep()
         {
-        }
-
-        public void Rest()
-        {
+            // TODO: When we make a game internal time system this should advance the game time by 6 - 8 hours when sleeping in night
+            ExitCanvass();
         }
     }
 }

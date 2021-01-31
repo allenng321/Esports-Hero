@@ -188,6 +188,7 @@ namespace Game.Scripts.UI
                     var t = Instantiate(requiredUpgradesListItem, requiredUpgradesListParent.position,
                         requiredUpgradesListParent.rotation, requiredUpgradesListParent);
                     t.text = $"{upgrade.item.ToString()}:{upgrade.levelRequired.ToString()} required";
+                    t.gameObject.SetActive(true);
                 }
             }
             else if (PlayerCurrentCoins < o.UpgradeCost)
