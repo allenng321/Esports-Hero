@@ -100,7 +100,9 @@ MonoBehaviour:
   itemRoom: 1
   itemKey: 6
   itemLevels:
-  - levelNumber: 1
+  - requiredPlayerExpLevel: 1
+    playerExpProgressGrant: 100
+    levelNumber: 1
     upgradeCost: 0
     upgradeTime:
       days: 0
@@ -116,7 +118,9 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
     requiredUpgrades: []
-  - levelNumber: 2
+  - requiredPlayerExpLevel: 1
+    playerExpProgressGrant: 100
+    levelNumber: 2
     upgradeCost: 175
     upgradeTime:
       days: 0
@@ -128,8 +132,8 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
     levelPreview:
-      m_AssetGUID: 
-      m_SubObjectName: 
+      m_AssetGUID: 1812733c91e26384ba26db674594baa3
+      m_SubObjectName: Office1 Sofa2 Preview
       m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     requiredUpgrades: []
@@ -435,7 +439,9 @@ MonoBehaviour:
   itemRoom: 1
   itemKey: 8
   itemLevels:
-  - levelNumber: 1
+  - requiredPlayerExpLevel: 1
+    playerExpProgressGrant: 100
+    levelNumber: 1
     upgradeCost: 0
     upgradeTime:
       days: 0
@@ -451,7 +457,9 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
     requiredUpgrades: []
-  - levelNumber: 2
+  - requiredPlayerExpLevel: 1
+    playerExpProgressGrant: 100
+    levelNumber: 2
     upgradeCost: 100
     upgradeTime:
       days: 0
@@ -463,8 +471,8 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
     levelPreview:
-      m_AssetGUID: 0f20b6dfb1bd13d448c067cfe7cf2cc8
-      m_SubObjectName: Book
+      m_AssetGUID: a495aec48ad55684dab208daf47ddfed
+      m_SubObjectName: Office1 BS2 Preview
       m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     requiredUpgrades: []
@@ -532,7 +540,9 @@ MonoBehaviour:
   itemRoom: 1
   itemKey: 7
   itemLevels:
-  - levelNumber: 1
+  - requiredPlayerExpLevel: 1
+    playerExpProgressGrant: 100
+    levelNumber: 1
     upgradeCost: 0
     upgradeTime:
       days: 0
@@ -548,7 +558,9 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
     requiredUpgrades: []
-  - levelNumber: 2
+  - requiredPlayerExpLevel: 1
+    playerExpProgressGrant: 100
+    levelNumber: 2
     upgradeCost: 150
     upgradeTime:
       days: 0
@@ -560,8 +572,8 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
     levelPreview:
-      m_AssetGUID: 6585ee34cdfe3be448acae204b5e181d
-      m_SubObjectName: Computer-mouse
+      m_AssetGUID: e0dcad41677dd6e4eabf98bb603d3ba3
+      m_SubObjectName: Office1 PC2 Preview
       m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     requiredUpgrades: []

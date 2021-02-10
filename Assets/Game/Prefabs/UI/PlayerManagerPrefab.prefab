@@ -137,7 +137,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 250
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!114 &4445707857312539533
 MonoBehaviour:
@@ -192,6 +192,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playingGameUIPanel: {fileID: 8771449931657012215}
   gameTimeRemainingText: {fileID: 6482994634419342320}
+  playerGameDataObject: {fileID: 11400000, guid: 36300ea8e3e82204193b09733200e8c4,
+    type: 2}
 --- !u!1 &7505084561981166744
 GameObject:
   m_ObjectHideFlags: 0

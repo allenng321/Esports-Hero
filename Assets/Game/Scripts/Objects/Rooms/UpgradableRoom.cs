@@ -36,6 +36,8 @@ namespace Game.Scripts.Objects.Rooms
         public UpgradableName ObjectKey => roomKey;
         public int CurrentLevelNumber { get; private set; }
         public int NextLevelNumber { get; private set; }
+        public int NextLevelRequiredPlayerExpLevel { get; private set; }
+        public int NextLevelPlayerExpProgressGrant { get; private set; }
         public bool NextLevelAvailable { get; private set; }
         public RequiredUpgrade[] NextLevelRequiredUpgrades { get; private set; }
         public int UpgradeCost { get; private set; }
@@ -98,6 +100,8 @@ namespace Game.Scripts.Objects.Rooms
             UpgradeCost = nextLevel.upgradeCost;
             UpgradeTime = nextLevel.upgradeTime;
             NextLevelRequiredUpgrades = nextLevel.requiredUpgrades;
+            NextLevelRequiredPlayerExpLevel = nextLevel.requiredPlayerExpLevel;
+            NextLevelPlayerExpProgressGrant = nextLevel.playerExpProgressGrant;
 
             _nextLevelPreview = nextLevel.levelPreview;
 
@@ -145,6 +149,7 @@ namespace Game.Scripts.Objects.Rooms
 
             UpgradableLevelsData.Save();
             Load(true);
+            PlayerManager.Instance.UpdatePlayerExpProgress(NextLevelPlayerExpProgressGrant);
         }
     }
 }

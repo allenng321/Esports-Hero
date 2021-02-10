@@ -46,7 +46,7 @@ namespace Game.Scripts.GameManagement
             gameDeaths = 0,
             gameRank = 1,
             gameRankProgress = 0,
-            gameLeaderboardRating = 99999,
+            gameLeaderboardRating = 6000,
             lastGameTime = DateTime.UtcNow
         };
 

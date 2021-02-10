@@ -49,7 +49,9 @@ MonoBehaviour:
   itemRoom: 0
   itemKey: 4
   itemLevels:
-  - levelNumber: 1
+  - requiredPlayerExpLevel: 1
+    playerExpProgressGrant: 100
+    levelNumber: 1
     upgradeCost: 0
     upgradeTime:
       days: 0
@@ -213,7 +215,9 @@ MonoBehaviour:
   itemRoom: 0
   itemKey: 2
   itemLevels:
-  - levelNumber: 1
+  - requiredPlayerExpLevel: 1
+    playerExpProgressGrant: 100
+    levelNumber: 1
     upgradeCost: 0
     upgradeTime:
       days: 0
@@ -229,7 +233,9 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
     requiredUpgrades: []
-  - levelNumber: 2
+  - requiredPlayerExpLevel: 1
+    playerExpProgressGrant: 100
+    levelNumber: 2
     upgradeCost: 50
     upgradeTime:
       days: 0
@@ -241,12 +247,14 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
     levelPreview:
-      m_AssetGUID: 6585ee34cdfe3be448acae204b5e181d
-      m_SubObjectName: Computer-mouse
+      m_AssetGUID: ee2b14f9d273cfb4ebfa30164f2aa946
+      m_SubObjectName: Bedroom1 PC2 Preview
       m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     requiredUpgrades: []
-  - levelNumber: 3
+  - requiredPlayerExpLevel: 1
+    playerExpProgressGrant: 100
+    levelNumber: 3
     upgradeCost: 250
     upgradeTime:
       days: 0
@@ -258,8 +266,8 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
     levelPreview:
-      m_AssetGUID: dbb761d88d8bcf84e9e1514723171c74
-      m_SubObjectName: Computer-mouse-L
+      m_AssetGUID: 5fd1589efcae2754ab5065bd01b5bfa0
+      m_SubObjectName: Bedroom1 PC3 Preview
       m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     requiredUpgrades: []
@@ -428,7 +436,9 @@ MonoBehaviour:
   itemRoom: 0
   itemKey: 1
   itemLevels:
-  - levelNumber: 1
+  - requiredPlayerExpLevel: 1
+    playerExpProgressGrant: 100
+    levelNumber: 1
     upgradeCost: 0
     upgradeTime:
       days: 0
@@ -683,13 +693,13 @@ PrefabInstance:
     - target: {fileID: 8347670645817312523, guid: 0a5bc11ed17ac05418e4deed4a1e50da,
         type: 3}
       propertyPath: lockedButtons.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8347670645817312523, guid: 0a5bc11ed17ac05418e4deed4a1e50da,
         type: 3}
       propertyPath: lockedButtons.Array.data[0].button
       value: 
-      objectReference: {fileID: 7415427357275133104}
+      objectReference: {fileID: 6410127313378386152}
     - target: {fileID: 8347670645817312523, guid: 0a5bc11ed17ac05418e4deed4a1e50da,
         type: 3}
       propertyPath: lockedButtons.Array.data[1].button
@@ -827,18 +837,6 @@ RectTransform:
 --- !u!114 &6410127313378386152 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5131943620403500689, guid: 0a5bc11ed17ac05418e4deed4a1e50da,
-    type: 3}
-  m_PrefabInstance: {fileID: 2291500275494106745}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7415427357275133104 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8729639331906462409, guid: 0a5bc11ed17ac05418e4deed4a1e50da,
     type: 3}
   m_PrefabInstance: {fileID: 2291500275494106745}
   m_PrefabAsset: {fileID: 0}

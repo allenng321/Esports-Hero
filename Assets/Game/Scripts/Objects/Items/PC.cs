@@ -11,6 +11,8 @@ namespace Game.Scripts.Objects.Items
 
         [SerializeField] private Text gameRank, gameLeaderboardRating, gameKillsPerDeaths;
 
+        [SerializeField] private Slider nextRankProgress;
+
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -22,9 +24,11 @@ namespace Game.Scripts.Objects.Items
             }
 
             var d = PlayerSaveData.CurrentData;
-            gameRank.text = d.gameRank.ToString();
+            gameRank.text = PlayerManager.Instance.GetGameRankName();
             gameLeaderboardRating.text = d.gameLeaderboardRating.ToString();
             gameKillsPerDeaths.text = ((float) d.gameKills / d.gameDeaths).ToString(CultureInfo.CurrentCulture);
+            nextRankProgress.maxValue = PlayerManager.Instance.GetNextRankProgress();
+            nextRankProgress.value = PlayerSaveData.CurrentData.gameRankProgress;
         }
 
         public override void ExitCanvass()

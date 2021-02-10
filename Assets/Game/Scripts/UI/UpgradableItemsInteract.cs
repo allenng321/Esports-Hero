@@ -25,6 +25,7 @@ namespace Game.Scripts.UI
             coinsLacking,
             roomMaxLevelReached,
             maxLevelReached,
+            higherPlayerExpRequired,
             otherUpgradeRequired;
 
         public Button confirmUpgrade;
@@ -39,7 +40,8 @@ namespace Game.Scripts.UI
             moreCoinsNeeded,
             upgradeCost,
             upgradeTime,
-            upgradeFinishingOn;
+            upgradeFinishingOn,
+            requiredPlayerExpLevel;
 
         public Transform requiredUpgradesListParent;
         public Text requiredUpgradesListItem;
@@ -90,6 +92,7 @@ namespace Game.Scripts.UI
             coinsLacking.SetActive(false);
             roomMaxLevelReached.SetActive(false);
             maxLevelReached.SetActive(false);
+            higherPlayerExpRequired.SetActive(false);
             otherUpgradeRequired.SetActive(false);
 
             upgradePreview.sprite = _defaultPreviewSprite;
@@ -178,6 +181,11 @@ namespace Game.Scripts.UI
                 else maxLevelReached.SetActive(true);
                 upgradePreview.gameObject.SetActive(false);
             }
+            else if (PlayerSaveData.CurrentData.playerExpLevel < o.NextLevelRequiredPlayerExpLevel)
+            {
+                higherPlayerExpRequired.SetActive(true);
+                requiredPlayerExpLevel.text = o.NextLevelRequiredPlayerExpLevel.ToString();
+            }
             else if (!requirementsMet)
             {
                 otherUpgradeRequired.SetActive(true);
@@ -235,6 +243,8 @@ namespace Game.Scripts.UI
                     UpgradableLevelsData.StartNewUpgrade(data);
                     UpgradableLevelsData.Save();
                     CurrentRoomRunningUpgrades.Add(data, o);
+
+                    FindObjectOfType<GameRoom>().UpdateCanvass();
                 });
             }
 

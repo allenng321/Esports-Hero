@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Scripts.Objects.Rooms;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
@@ -24,6 +25,18 @@ namespace Game.Scripts.GameManagement
 
         [SerializeField] private GameObject playingGameUIPanel;
         [SerializeField] private Text gameTimeRemainingText;
+        [SerializeField] private PlayerGameDataObject playerGameDataObject;
+
+        private GameRoom _currentRoom;
+
+        private GameRoom CurrentRoom
+        {
+            get
+            {
+                if (!_currentRoom) _currentRoom = FindObjectOfType<GameRoom>();
+                return _currentRoom;
+            }
+        }
 
         [RuntimeInitializeOnLoadMethod]
         private static void RuntimeOnLoad()
@@ -57,6 +70,32 @@ namespace Game.Scripts.GameManagement
 
             if (gameTimeLeft.Minutes >= _currentMatchTime) EndGameSimulation();
         }
+
+        public string GetGameRankName() => playerGameDataObject.GetRankName(currentPlayerData.gameRank);
+
+        public int GetNextRankProgress() =>
+            playerGameDataObject.GetRequiredRankProgressForGoingToNextRank(currentPlayerData.gameRank + 1);
+
+        public void UpdatePlayerExpProgress(int grant)
+        {
+            var pData = currentPlayerData;
+            var expProgress = pData.playerExpProgress + grant;
+            var requiredExpProgress =
+                playerGameDataObject.GetRequiredExpProgressForReachingNextLevel(pData.playerExpLevel + 1);
+
+            pData.playerExpProgress = expProgress;
+            if (expProgress >= requiredExpProgress && requiredExpProgress > 0)
+            {
+                pData.playerExpLevel += 1;
+                pData.playerExpProgress = expProgress - requiredExpProgress;
+            }
+
+            PlayerSaveData.CurrentData = pData;
+            PlayerSaveData.Save();
+
+            CurrentRoom.UpdateCanvass();
+        }
+
 
         public void RunGameSimulation()
         {
@@ -127,13 +166,14 @@ namespace Game.Scripts.GameManagement
 
             Debug.Log(
                 $"Consecutive Wins: {currentPlayerData.consecutiveGameWins}, Total Wins: {currentPlayerData.totalGameWins}," +
-                $" Player Rank: {currentPlayerData.gameRank}, Player Leaderboard Rating: {currentPlayerData.gameLeaderboardRating}," +
+                $" Player Rank: {currentPlayerData.gameRank}, Rank Progress: {currentPlayerData.gameRankProgress}, Player Leaderboard Rating: {currentPlayerData.gameLeaderboardRating}," +
                 $" Chance: {_chance}, Win: {_winCurrentSimulation}, Kills: {_kills}, Deaths: {_deaths}");
         }
 
         private void UpdatePlayerDataAfterGame()
         {
             var ratingIncrease = CalculateRatingChangeAfterGame();
+            var coinsWon = CalculateCoinsWonOnGameWin();
             var playerData = currentPlayerData;
 
             if (_winCurrentSimulation)
@@ -150,17 +190,47 @@ namespace Game.Scripts.GameManagement
 
             playerData.gameKills += _kills;
             playerData.gameDeaths += _deaths;
+            var kd = (float) _kills / _deaths;
+
             playerData.gameLeaderboardRating = Mathf.Clamp(playerData.gameLeaderboardRating - ratingIncrease, 1, 99999);
 
-            playerData.gameRankProgress += Mathf.Clamp(ratingIncrease, 0, 75);
-            if (playerData.gameRankProgress > 1250)
+            var rp = playerData.gameRankProgress;
+            var requiredRp = playerGameDataObject.GetRequiredRankProgressForGoingToNextRank(playerData.gameRank + 1);
+            rp += Mathf.Clamp(ratingIncrease, 0, 25);
+            if (_winCurrentSimulation)
+            {
+                var lbg = PlayerWinChanceCalculator.GetLeaderboardRatingGroup(playerData.gameLeaderboardRating);
+                rp += IntRaisedToPower(2, 10 - lbg) + 5;
+            }
+
+            if (kd > 1)
+            {
+                var d = _kills - _deaths;
+                rp += d * 2 + 1;
+            }
+
+            playerData.gameRankProgress = rp;
+            if (requiredRp > 0 && rp > requiredRp)
             {
                 playerData.gameRank += 1;
-                playerData.gameRankProgress -= 1250;
+                playerData.gameRankProgress = rp - requiredRp;
             }
+
+            playerData.coinsInWallet += coinsWon;
 
             PlayerSaveData.CurrentData = playerData;
             PlayerSaveData.Save();
+
+            CurrentRoom.UpdateCanvass();
+        }
+
+        private static int IntRaisedToPower(int value, int power)
+        {
+            if (power <= 0) return 1;
+            if (power == 1) return value;
+
+            for (int i = 1; i < power; i++) value *= value;
+            return value;
         }
 
         private int CalculateRatingChangeAfterGame()
@@ -186,6 +256,35 @@ namespace Game.Scripts.GameManagement
             }
 
             return delta;
+        }
+
+        // Calculates the amount of coins player gets after winning a multiplayer game battle depending on the leaderboard group player is in
+        private int CalculateCoinsWonOnGameWin()
+        {
+            if (!_winCurrentSimulation) return 0;
+
+            var lbg = PlayerWinChanceCalculator.GetLeaderboardRatingGroup(currentPlayerData.gameLeaderboardRating);
+            switch (lbg)
+            {
+                case 1:
+                    return 1250;
+                case 2:
+                    return 999;
+                case 3:
+                    return 890;
+                case 4:
+                    return 750;
+                case 5:
+                    return 500;
+                case 6:
+                    return 375;
+                case 7:
+                    return 250;
+                case 8:
+                    return 100;
+                default:
+                    return 0;
+            }
         }
     }
 }

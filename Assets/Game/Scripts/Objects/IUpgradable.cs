@@ -12,6 +12,8 @@ namespace Game.Scripts.Objects
         UpgradableName ObjectKey { get; }
         int CurrentLevelNumber { get; }
         int NextLevelNumber { get; }
+        int NextLevelRequiredPlayerExpLevel { get; }
+        int NextLevelPlayerExpProgressGrant { get; }
         bool NextLevelAvailable { get; }
         RequiredUpgrade[] NextLevelRequiredUpgrades { get; }
         int UpgradeCost { get; }
@@ -53,8 +55,10 @@ namespace Game.Scripts.Objects
     [Serializable]
     public class UpgradableObjectLevel
     {
-        public int levelNumber;
-        public int upgradeCost;
+        public int requiredPlayerExpLevel = 1;
+        public int playerExpProgressGrant = 100;
+        public int levelNumber = 1;
+        public int upgradeCost = 10;
         public UpgradeTime upgradeTime;
         public AssetReferenceGameObject levelPrefab;
         public AssetReferenceSprite levelPreview;

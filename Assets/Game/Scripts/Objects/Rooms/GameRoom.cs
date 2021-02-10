@@ -10,6 +10,8 @@ namespace Game.Scripts.Objects.Rooms
     {
         [SerializeField] private Text playerNameDisplay, playerExpDisplay;
 
+        [SerializeField] private Text coinsAmountDisplay;
+
         [SerializeField] private UpgradableRoom theUpgradableRoom;
 
         [SerializeField] private Text roomLevelDisplay, roomNameDisplay;
@@ -19,6 +21,8 @@ namespace Game.Scripts.Objects.Rooms
         private void Awake() => StartCoroutine(UpdateDisplay());
 
         private void OnEnable() => StartCoroutine(UpdateDisplay());
+
+        public void UpdateCanvass() => StartCoroutine(UpdateDisplay());
 
         private IEnumerator UpdateDisplay()
         {
@@ -35,6 +39,8 @@ namespace Game.Scripts.Objects.Rooms
 
             playerNameDisplay.text = PlayerSaveData.CurrentData.playerName;
             playerExpDisplay.text = PlayerSaveData.CurrentData.playerExpLevel.ToString();
+
+            coinsAmountDisplay.text = PlayerSaveData.CurrentData.coinsInWallet.ToString();
 
             roomLevelDisplay.text = theUpgradableRoom.CurrentLevelNumber.ToString();
             roomNameDisplay.text = theUpgradableRoom.ObjectRoom.ToString();

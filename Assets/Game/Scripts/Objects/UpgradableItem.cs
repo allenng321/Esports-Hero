@@ -26,6 +26,8 @@ namespace Game.Scripts.Objects
         public UpgradableName ObjectKey => itemKey;
         public int CurrentLevelNumber { get; private set; }
         public int NextLevelNumber { get; private set; }
+        public int NextLevelRequiredPlayerExpLevel { get; private set; }
+        public int NextLevelPlayerExpProgressGrant { get; private set; }
         public bool NextLevelAvailable { get; private set; }
         public RequiredUpgrade[] NextLevelRequiredUpgrades { get; private set; }
         public int UpgradeCost { get; private set; }
@@ -70,6 +72,8 @@ namespace Game.Scripts.Objects
             UpgradeCost = nextLevel.upgradeCost;
             UpgradeTime = nextLevel.upgradeTime;
             NextLevelRequiredUpgrades = nextLevel.requiredUpgrades;
+            NextLevelRequiredPlayerExpLevel = nextLevel.requiredPlayerExpLevel;
+            NextLevelPlayerExpProgressGrant = nextLevel.playerExpProgressGrant;
 
             _nextLevelPreview = nextLevel.levelPreview;
             if (!(_nextLevelPreview is null) && _nextLevelPreview.RuntimeKeyIsValid())
@@ -97,6 +101,7 @@ namespace Game.Scripts.Objects
             UpgradableLevelsData.UpgradablesData[itemKey] = NextLevelNumber;
             UpgradableLevelsData.Save();
             Load(true);
+            PlayerManager.Instance.UpdatePlayerExpProgress(NextLevelPlayerExpProgressGrant);
         }
 
         public void OnPointerClick(PointerEventData eventData)
